@@ -18,7 +18,7 @@ class AdminRoleSeeder extends Seeder
         $admin_role->save();
 
         $admin_role = new Admin_role();
-        $admin_role->name = "Laboran Penguji";
+        $admin_role->name = "User";
         $admin_role->save();
     }
 }

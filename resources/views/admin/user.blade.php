@@ -29,7 +29,7 @@
                   <th>Nama</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Prodi</th>
+                  {{-- <th>Prodi</th> --}}
                   <th>Menu</th>
                 </tr>
               </thead>
@@ -38,7 +38,7 @@
                   <th>Nama</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Prodi</th>
+                  {{-- <th>Prodi</th> --}}
                   <th>Menu</th>
                 </tr>
               </tfoot>
@@ -50,7 +50,8 @@
     
     </div>
 </div>
-@endsection @push('scripts')
+@endsection 
+@push('scripts')
 <!-- Page level plugins -->
   <script src="{{ url('') }}/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="{{ url('') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
@@ -58,6 +59,12 @@
     //Call the dataTables jQuery plugin
     $(document).ready(function() {
       $('#dataTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'colvis',
+            'excel',
+            'print'
+        ],
         processing : true,
         serverSide : true,
         ajax : {
@@ -68,10 +75,10 @@
           {data:'name',name:'name'},
           {data:'email',name:'email'},
           {data:'admin_role',name:'admin_role'},
-          {data:'admin_prodi',name:'admin_prodi'},
+          // {data:'admin_prodi',name:'admin_prodi'},
           {data:'action',name:'action', orderable: false, searchable: false},
         ],
-        order: [[0, 'asc']]
+        order: [[0, 'asc']],
       });
     });
   </script>
@@ -102,10 +109,10 @@
                     <label for="admin_roles_id" class="control-label">Role</label>
                     <select style="width: 100%" class="admin_roles_id form-control form-control-lg" id="admin_roles_id" name="admin_roles_id"></select>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="admin_prodis_id" class="control-label">Prodi</label>
                     <select style="width: 100%" class="admin_prodis_id form-control form-control-lg" id="admin_prodis_id" name="admin_prodis_id"></select>
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-x"></i></button>
@@ -177,7 +184,7 @@
         let email   = $('#email').val();
         let password   = $('#password').val();
         let admin_roles_id   = $('#admin_roles_id').val() == null ? '' : $('#admin_roles_id').val();
-        let admin_prodis_id   = $('#admin_prodis_id').val() == null ? '' : $('#admin_prodis_id').val();
+        // let admin_prodis_id   = $('#admin_prodis_id').val() == null ? '' : $('#admin_prodis_id').val();
         let token   = $("meta[name='csrf-token']").attr("content");
   
         $.ajax({
@@ -189,7 +196,7 @@
                 'email': email,
                 'password': password,
                 'admin_roles_id': admin_roles_id,
-                'admin_prodis_id': admin_prodis_id,
+                // 'admin_prodis_id': admin_prodis_id,
                 '_token': token,
             },
             success: function (response) {
@@ -205,7 +212,7 @@
                 $('#name').val('');
                 $('#email').val('');
                 $('#password').val('');
-                $('#admin_roles_id').val('');
+                // $('#admin_roles_id').val('');
                 $('#admin_prodis_id').val('');
   
                 //close modal
@@ -213,9 +220,9 @@
                 $('#dataTable').DataTable().ajax.reload();
             },
             error: function (error) {
-              if (error.responseJSON.admin_prodis_id?.[0]) { 
-                toastr.error(error.responseJSON.admin_prodis_id[0]);
-              }
+              // if (error.responseJSON.admin_prodis_id?.[0]) { 
+              //   toastr.error(error.responseJSON.admin_prodis_id[0]);
+              // }
               if (error.responseJSON.admin_roles_id?.[0]) { 
                 toastr.error(error.responseJSON.admin_roles_id[0]);
               }
@@ -261,11 +268,11 @@
             <label for="admin_roles_id_edit" class="control-label">Role</label>
             <select style="width: 100%" class="admin_roles_id_edit form-control form-control-lg" id="admin_roles_id_edit" name="admin_roles_id_edit"></select>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <input type="hidden" id="admin_prodis_id_old">
             <label for="admin_prodis_id_edit" class="control-label">Prodi</label>
             <select style="width: 100%" class="admin_prodis_id_edit form-control form-control-lg" id="admin_prodis_id_edit" name="admin_prodis_id_edit"></select>
-        </div>
+        </div> --}}
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-x"></i></button>
@@ -278,72 +285,73 @@
   <script>
     $('body').on('click', '#btn-edit', function () {
       $('#admin_roles_id_edit').val('');
-      $('#admin_prodis_id_edit').val('');
+      // $('#admin_prodis_id_edit').val('');
       let admins_id = $(this).data('id');
-        $.ajax({
-          url: `{{ url('admin/user/show/${admins_id}') }}`,
-          type: "GET",
-          cache: false,
-          success: function (response) {
-            // console.log(response.data);
-            $('#admins_id').val(response.data.id);
-            $('#name_edit').val(response.data.user.name);
-            $('#email_edit').val(response.data.user.email);
-            $('#admin_roles_id_old').val(response.data.admin_roles_id);
-            $('#admin_prodis_id_old').val(response.data.admin_prodis_id);
+      $.ajax({
+        url: `{{ url('admin/user/show/${admins_id}') }}`,
+        type: "GET",
+        cache: false,
+        success: function (response) {
+          // console.log(response.data);
+          $('#admins_id').val(response.data.id);
+          $('#name_edit').val(response.data.user.name);
+          $('#email_edit').val(response.data.user.email);
+          $('#admin_roles_id_old').val(response.data.admin_roles_id);
+          // $('#admin_prodis_id_old').val(response.data.admin_prodis_id);
 
-            $('.admin_roles_id_edit').select2({
+          $('.admin_roles_id_edit').select2({
             placeholder: response.data.admin_role.name,
             dropdownCssClass: "bigdrop",
             dropdownParent: $("#modal-edit"),
             // theme: "classic",
             // minimumInputLength: 2,
             ajax : {
-            url: `{{ url('/admin/role/role-ajax') }}`,
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
+              url: `{{ url('/admin/role/role-ajax') }}`,
+              dataType: 'json',
+              delay: 250,
+              processResults: function (data) {
                 return {
-                results:  $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
+                  results:  $.map(data, function (item) {
+                    return {
+                      text: item.name,
+                      id: item.id
+                    }
+                  })
                 };
-            },
-            cache: true
+              },
+              cache: true
             }
-        });
-        
-        $('.admin_prodis_id_edit').select2({
-            placeholder: response.data.admin_prodi.name,
-            dropdownCssClass: "bigdrop",
-            dropdownParent: $("#modal-edit"),
-            // theme: "classic",
-            // minimumInputLength: 2,
-            ajax : {
-            url: `{{ url('/admin/prodi/prodi-ajax') }}`,
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                results:  $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
-                };
-            },
-            cache: true
-            }
-        });
-          }
-        });
+          });
 
-        //open modal
-        $('#modal-edit').modal('show');
+          // $('.admin_prodis_id_edit').select2({
+          //   placeholder: response.data.admin_prodi.name,
+          //   dropdownCssClass: "bigdrop",
+          //   dropdownParent: $("#modal-edit"),
+          //   // theme: "classic",
+          //   // minimumInputLength: 2,
+          //   ajax : {
+          //     url: `{{ url('/admin/prodi/prodi-ajax') }}`,
+          //     dataType: 'json',
+          //     delay: 250,
+          //     processResults: function (data) {
+          //       return {
+          //         results:  $.map(data, function (item) {
+          //           return {
+          //             text: item.name,
+          //             id: item.id
+          //           }
+          //         })
+          //       };
+          //     },
+          //     cache: true
+          //   }
+          // });
+
+        }
+      });
+
+      //open modal
+      $('#modal-edit').modal('show');
     });
   
     $('#update').click(function (e) { 
@@ -353,7 +361,7 @@
         let email   = $('#email_edit').val();
         let password   = $('#password_edit').val();
         let admin_roles_id   = $('#admin_roles_id_edit').val() == null ? $('#admin_roles_id_old').val() : $('#admin_roles_id_edit').val();
-        let admin_prodis_id   = $('#admin_prodis_id_edit').val() == null ? $('#admin_prodis_id_old').val() : $('#admin_prodis_id_edit').val();
+        // let admin_prodis_id   = $('#admin_prodis_id_edit').val() == null ? $('#admin_prodis_id_old').val() : $('#admin_prodis_id_edit').val();
         let token   = $("meta[name='csrf-token']").attr("content");
   
         $.ajax({
@@ -362,7 +370,7 @@
             cache: false,
             data: {
                 'admin_roles_id': admin_roles_id,
-                'admin_prodis_id': admin_prodis_id,
+                // 'admin_prodis_id': admin_prodis_id,
                 '_token': token,
             },
             success: function (response) {
@@ -378,7 +386,7 @@
                 $('#name_edit').val('');
                 $('#email_edit').val('');
                 $('#admin_roles_id_old').val('');
-                $('#admin_prodis_id_old').val('');
+                // $('#admin_prodis_id_old').val('');
   
                 //close modal
                 $('#modal-edit').modal('hide');

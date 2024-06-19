@@ -39,7 +39,7 @@
                 <label class="custom-control-label" style="color: #000000AA" for="remember">{{ __('Remember Me') }}</label>
             </div>
             <div class="custom-control custom-checkbox small">
-                <a href="#" style="color: #bc032f">Forgot Password?</a>
+                <a href="{{ route('password.request') }}" style="color: #bc032f">Forgot Password?</a>
             </div>
         </div>
 

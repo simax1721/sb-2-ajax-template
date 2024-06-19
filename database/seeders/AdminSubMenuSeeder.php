@@ -29,9 +29,9 @@ class AdminSubMenuSeeder extends Seeder
 
         $admin_sub_menu = new Admin_sub_menu();
         $admin_sub_menu->admin_menus_id = 2;
-        $admin_sub_menu->name = 'Prodi';
-        $admin_sub_menu->url = '/admin/prodi';
-        $admin_sub_menu->icon = 'fa-graduation-cap';
+        $admin_sub_menu->name = 'Role';
+        $admin_sub_menu->url = '/admin/role';
+        $admin_sub_menu->icon = 'fa-user-shield';
         $admin_sub_menu->save();
 
         $admin_sub_menu = new Admin_sub_menu();
@@ -46,13 +46,6 @@ class AdminSubMenuSeeder extends Seeder
         $admin_sub_menu->name = 'Admin User';
         $admin_sub_menu->url = '/admin/user';
         $admin_sub_menu->icon = 'fa-users-gear';
-        $admin_sub_menu->save();
-
-        $admin_sub_menu = new Admin_sub_menu();
-        $admin_sub_menu->admin_menus_id = 2;
-        $admin_sub_menu->name = 'Role';
-        $admin_sub_menu->url = '/admin/role';
-        $admin_sub_menu->icon = 'fa-user-shield';
         $admin_sub_menu->save();
     }
 }

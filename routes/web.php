@@ -18,8 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return '<a href="login">Login</a>';
+// });
 Route::get('/', function () {
-    return '<a href="login">Login</a>';
+    return redirect('login');
 });
 
 Auth::routes();

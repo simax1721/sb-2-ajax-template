@@ -39,7 +39,7 @@ class AdminUserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'admin_roles_id' => 'required',
-            'admin_prodis_id' => 'required',
+            // 'admin_prodis_id' => 'required',
         ]);
 
         //check if validation fails
@@ -58,7 +58,8 @@ class AdminUserController extends Controller
         Admin::create([
             'users_id' => $user->id,
             'admin_roles_id' => $request->admin_roles_id,
-            'admin_prodis_id' => $request->admin_prodis_id,
+            'admin_prodis_id' => 1,
+            // 'admin_prodis_id' => $request->admin_prodis_id,
         ]);
 
         //return response
@@ -107,7 +108,8 @@ class AdminUserController extends Controller
 
         Admin::find($admins_id)->update([
             'admin_roles_id' => $request->admin_roles_id,
-            'admin_prodis_id' => $request->admin_prodis_id,
+            'admin_prodis_id' => 1,
+            // 'admin_prodis_id' => $request->admin_prodis_id,
         ]);
 
         //return response
